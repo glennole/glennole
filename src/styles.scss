@@ -1,0 +1,27 @@
+@import 'primevue/resources/themes/saga-blue/theme.css';
+@import 'primevue/resources/primevue.min.css';
+@import 'primeicons/primeicons.css';
+@import 'primeflex/primeflex.css';
+
+body{
+    margin: 0;
+    padding: 0;
+}
+.layout-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    
+}
+.layout-topbar{
+    height: 70px;
+}
+.layout-menu {
+    max-width: 300px;
+    margin-left: -0.5rem;
+ }
+.layout-main {
+    min-height: calc(100vh - 140px);
+}
+.layout-footer{
+    height: 70px;;
+}
