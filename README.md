@@ -1,6 +1,6 @@
 # glennole
 
-Platform for hosting different small apps for own usage
+Platform for hosting different small apps for own usage. Its protected by Auth0's free services.
 The following apps are available or under construction:
  - Economy - An overview of shared household economy
 
