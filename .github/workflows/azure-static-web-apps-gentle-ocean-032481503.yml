@@ -38,6 +38,8 @@ jobs:
           VITE_AUTH0_CLIENT_ID: ${{ secrets.VITE_AUTH0_CLIENT_ID }}
           VITE_AUTH0_AUDIENCE: ${{ secrets.VITE_AUTH0_AUDIENCE }}
           VITE_AUTH0_CACHELOCATION: localstorage
+          VITE_ECONOMY_API_BASE_URL: ${{ secrets.VITE_ECONOMY_API_BASE_URL }}
+          VITE_AUTH0_USER_TOKEN: ${{ secrets.VITE_AUTH0_USER_TOKEN }}
           ###### End of Repository/Build Configurations ######
 
   close_pull_request_job:
