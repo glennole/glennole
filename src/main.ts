@@ -12,11 +12,11 @@ import Column from 'primevue/column'
 const app = createApp(App);
 
 const auth0 = createAuth0({
-    domain: '',
-    client_id: '',
+    domain: import.meta.env.VITE_AUTH0_DOMAIN,
+    client_id: import.meta.env.VITE_AUTH0_CLIENT_ID,
     redirect_uri: window.location.origin,
-    audience: '',
-    cacheLocation: 'localstorage'
+    audience: import.meta.env.VITE_AUTH0_AUDIENCE,
+    cacheLocation: import.meta.env.VITE_AUTH0_CACHELOCATION
 })
 
 app.use(createPinia());
