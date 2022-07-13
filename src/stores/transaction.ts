@@ -21,7 +21,7 @@ export const useTransactionStore = defineStore({
         const { getUserToken, getAuthToken } =  useAuthStore();
         try {
             
-            const data = await axios.get(`https://economy.gohaugen.com/api/transaction/${accountId}`, {
+            const data = await axios.get(`${import.meta.env.VITE_ECONOMY_API_BASE_URL}/api/transaction/${accountId}`, {
               headers: {
                 Authorization: `Bearer ${getAuthToken}`,
                 Token: `${getUserToken}`

@@ -25,7 +25,7 @@ export const useAccountingStore = defineStore({
         const { getUserToken, getAuthToken } =  useAuthStore();
         try {
             
-            const data = await axios.get('https://economy.gohaugen.com/api/accounting', {
+            const data = await axios.get(`${import.meta.env.VITE_ECONOMY_API_BASE_URL}/api/accounting`, {
               headers: {
                 Authorization: `Bearer ${getAuthToken}`,
                 Token: `${getUserToken}`

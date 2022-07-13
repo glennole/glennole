@@ -12,7 +12,7 @@
   
   watch(isLoading, async (value, oldValue) => {
       if (value === false && isAuthenticated.value === true) {
-        let userToken = user.value['https://glennole.com/token'];
+        let userToken = user.value[import.meta.env.VITE_AUTH0_USER_TOKEN];
         let accessToken = await getAccessTokenSilently();
         authStore.setTokens(userToken, accessToken);
       }
