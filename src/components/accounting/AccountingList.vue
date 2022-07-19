@@ -12,19 +12,19 @@
 import { ref, onMounted, onUnmounted } from 'vue';
 import { useAccountingStore } from "@/stores/accounting";
 import { useAccountStore } from '@/stores/account';
-import { useTransactionStore } from '@/stores/transaction';
+import { useBankstatementsStore } from '@/stores/bankstatements';
 import { computed } from '@vue/reactivity';
 
 
 const selectedAccounting = ref();
 const store = useAccountingStore();
 const accountStore = useAccountStore();
-const transactionStore = useTransactionStore();
+const bankStatementStore = useBankstatementsStore();
 
 const onRowSelect = () => {
     store.setAccounting(selectedAccounting.value.id);
     accountStore.fetchAccounts(selectedAccounting.value.id)
-    transactionStore.$reset();
+    bankStatementStore.$reset();
 }
 
 const accountings = computed(() => {
@@ -38,7 +38,7 @@ onMounted(() => {
 onUnmounted(() => {
     store.$reset();
     accountStore.$reset();
-    transactionStore.$reset();
+    bankStatementStore.$reset();
 
 })
 </script>

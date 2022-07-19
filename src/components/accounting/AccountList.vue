@@ -13,11 +13,13 @@
 import { ref } from 'vue';
 import { useAccountStore } from "@/stores/account";
 import { useTransactionStore } from '@/stores/transaction';
+import { useBankstatementsStore } from '@/stores/bankstatements';
 import { storeToRefs } from 'pinia';
 
 
 const selectedAccount= ref();
 const store = useAccountStore();
+const bankstatementsStore = useBankstatementsStore();
 const transactionStore = useTransactionStore();
 
 store.$subscribe((mutation, state) => {
@@ -28,7 +30,9 @@ store.$subscribe((mutation, state) => {
 
 const onRowSelect = () => {
     store.setAccount(selectedAccount.value.id);
-    transactionStore.fetchTransactions(selectedAccount.value.id)
+    transactionStore.fetchTransactions(selectedAccount.value.id);
+    bankstatementsStore.fetchBankStatements(selectedAccount.value.id);
+
 }
 
 
