@@ -1,5 +1,4 @@
 import { defineStore } from "pinia";
-import { useAuth0 } from '@auth0/auth0-vue';
 
 export const useAuthStore = defineStore({
     id: "auth",
@@ -18,7 +17,6 @@ export const useAuthStore = defineStore({
     },
     actions: {
       async setTokens(userToken: string, accessToken: string) {
-        console.log(userToken + '  accessToken: ' + accessToken);
         this.authToken = accessToken;
         this.userToken = userToken;
       }

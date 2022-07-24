@@ -5,19 +5,21 @@
   import Logout from "./components/Logout.vue"
   import { useAuth0 } from '@auth0/auth0-vue';
   import { useAuthStore } from "./stores/auth";
+  import { useUserStore } from "./stores/user";
   import { ref, onMounted, watch } from 'vue';
 
   const {isAuthenticated, isLoading, user, getAccessTokenSilently } = useAuth0();
   const authStore = useAuthStore();
+  const userStore = useUserStore();
   
   watch(isLoading, async (value, oldValue) => {
       if (value === false && isAuthenticated.value === true) {
         let userToken = user.value[import.meta.env.VITE_AUTH0_USER_TOKEN];
         let accessToken = await getAccessTokenSilently();
         authStore.setTokens(userToken, accessToken);
+        userStore.fetchCurrentUser();
       }
   })
-
 </script>
 
 <template>

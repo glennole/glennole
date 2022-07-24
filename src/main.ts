@@ -12,6 +12,9 @@ import Toolbar from 'primevue/toolbar'
 import Button from 'primevue/button'
 import Dialog from 'primevue/dialog'
 import InputText from 'primevue/inputtext'
+import Calendar from 'primevue/calendar'
+import InputNumber from 'primevue/inputnumber'
+import Dropdown from 'primevue/dropdown'
 
 const app = createApp(App);
 
@@ -35,4 +38,7 @@ app.component('Toolbar', Toolbar)
 app.component('Button', Button)
 app.component('Dialog', Dialog)
 app.component('InputText', InputText)
+app.component('Calendar', Calendar)
+app.component('InputNumber', InputNumber)
+app.component('Dropdown', Dropdown)
 app.mount("#app");

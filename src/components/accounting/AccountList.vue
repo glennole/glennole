@@ -2,7 +2,6 @@
     <div>
         <DataTable :value="store.accounts" responsiveLayout="scroll" v-model:selection="selectedAccount" selectionMode="single"
             @row-select="onRowSelect" dataKey="id" >
-            <Column field="id" header="Id"></Column>
             <Column field="name" header="Navn"></Column>
             <Column field="description" header="Beskrivelse"></Column>
         </DataTable>
@@ -32,9 +31,6 @@ const onRowSelect = () => {
     store.setAccount(selectedAccount.value.id);
     transactionStore.fetchTransactions(selectedAccount.value.id);
     bankstatementsStore.fetchBankStatements(selectedAccount.value.id);
-
 }
-
-
 
 </script>

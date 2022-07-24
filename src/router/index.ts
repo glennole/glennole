@@ -2,6 +2,7 @@ import { createRouter as createVueRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import AccountingView from "@/views/AccountingView.vue";
 import { createAuthGuard } from "@auth0/auth0-vue";
+import CategoryView from "@/views/CategoryView.vue";
 
 export function createRouter(app: App) {
   return createVueRouter({
@@ -13,9 +14,14 @@ export function createRouter(app: App) {
         component: AccountingView,
       },
       {
-        path: "/settlement",
-        name: "Settlement",
-        component: () => import("../views/SettlementView.vue"),
+        path: "/categories",
+        name: "Categories",
+        component: CategoryView,
+      },
+      {
+        path: "/refund",
+        name: "refund",
+        component: () => import('../views/RefundView.vue'),
         beforeEnter: createAuthGuard(app),
       },
       {

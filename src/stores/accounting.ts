@@ -1,14 +1,19 @@
+import { ref } from 'vue'
 import { defineStore } from "pinia";
 import axios from "axios";
 import { useAuthStore } from "./auth";
+import type IAccounting from "@/models/accounting/accounting.model";
+import type PurchaseGoods from '@/models/accounting/purchasegoods.model';
+import { useBankstatementsStore } from './bankstatements';
+import { useAccountStore } from './account';
 
 export const useAccountingStore = defineStore({
     id: "accounting",
     state: () => ({
       accountings: [],
-      accounting: null,
+      accounting: ref<IAccounting>(),
       loading: false,
-      error: null,
+      error: null
     }),
     getters: {
       getAccountings(state) {
@@ -44,6 +49,33 @@ export const useAccountingStore = defineStore({
         }
         else {
           this.accounting = this.accountings.find((accounting) => accounting.id === accountingId);
+        }
+      },
+      async registerPurchaseGoods(purchaseGoods: PurchaseGoods) {
+        const { getUserToken, getAuthToken } = useAuthStore();
+        const accountStore = useAccountStore();
+        const bankstatementStore = useBankstatementsStore();
+        try {
+          await axios.post<PurchaseGoods>(`${import.meta.env.VITE_ECONOMY_API_BASE_URL}/api/accounting/purchasegoods`, purchaseGoods, {
+            headers: {
+              Authorization: `Bearer ${getAuthToken}`,
+              Token: `${getUserToken}`
+            }
+          })
+          .then(response => 
+            bankstatementStore.refreshBankStatements(accountStore.account.id)
+          )
+          .catch ((error) => {
+            alert(error);
+            console.log(error)
+          })
+        }
+        catch (error) {
+          alert(error);
+          console.log(error);
+        }
+        finally {
+
         }
       }
     },

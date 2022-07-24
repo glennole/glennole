@@ -7,12 +7,24 @@
         </Toolbar>
         <DataTable :value="getCategories"
             sortMode="single" sortField="name" :sortOrder="1"
+            editMode="cell" dataKey="id" @cell-edit-complete="onCellEditComplete"
             responsiveLayout="scroll">
-            <Column field="name" header="Navn"></Column>
+            <Column field="name" header="Navn">
+                <template #editor="{ data, field }">
+                    <InputText v-model="data[field]" autofocus />
+                </template>
+            </Column>
+            <Column :rowEditor="true" style="width:10%; min-width:8rem" bodyStyle="text-align:center">
+            </Column>
+            <Column bodyStyle="text-align:center">
+                <template #body="slotProps">
+                    <Button icon="pi pi-trash" class="p-button-rounded p-button-danger" @click="deleteCategory(slotProps.data)" />
+                </template>
+            </Column>
         </DataTable>
     </div>
 
-    <Dialog :visible="categoryDialog" :style="{width: '450px'}" header="Opprett ny kategori" :modal="true" class="p-fluid">
+    <Dialog :visible="categoryDialog" :style="{width: '450px'}" header="Opprett ny kategori" :modal="true" class="p-fluid" @update:visible="hideDialog">
         <div class="field">
             <label for="name">Navn</label>
             <InputText id="name" v-model.trim="category.name" required="true" autofocus :class="{'p-invalid': submitted && !category.name}" />
@@ -20,7 +32,7 @@
         </div>
         <template #footer>
             <Button label="Avbryt" icon="pi pi-times" class="p-button-text" @click="hideDialog"/>
-            <Button label="Lagre" icon="pi pi-check" class="p-button-text" @click="saveCategory" />
+            <Button label="Lagre" icon="pi pi-check" class="p-button-text" @click="addCategory" />
         </template>
     </Dialog>
 </template>
@@ -48,7 +60,7 @@ const categoryDialog = ref<boolean>();
 const submitted = ref<boolean>(false);
 
 const openNew = () => {
-    category.value = { name: '' };
+    category.value = { name: '', id:0 };
     submitted.value = false;
     categoryDialog.value = true;
 }
@@ -58,7 +70,7 @@ const hideDialog = () => {
     submitted.value = false;
 }
 
-const saveCategory = () => {
+const addCategory = () => {
     submitted.value = true;
 
     if (category.value?.name.trim()){
@@ -74,8 +86,16 @@ const saveCategory = () => {
     }
 }
 
-function deleteCategory(categoryId: number){
+const onCellEditComplete = (event) => {
+    let { data, newValue, field } = event;
+    if(data.name === newValue)
+        return
+    data.name = newValue;
+    store.updateCategory(data)         
+};
 
+const deleteCategory = (category: Category) =>{
+    store.deleteCategory(category);
 }
 
 

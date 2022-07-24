@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import {PrimeIcons} from 'primevue/api';
 
 const items = ref([
   {
@@ -7,13 +8,18 @@ const items = ref([
     items: [
       {
         label: 'Regnskap',
-        icon: 'pi-book',
+        icon: PrimeIcons.BOOK,
         to: '/accounting'
       },
       {
+        label: 'Kategorier',
+        icon: PrimeIcons.TAGS,
+        to: '/categories'
+      },
+      {
         label: 'Oppgjør',
-        icon: 'pi-money-bill',
-        to: '/settlement'
+        icon: PrimeIcons.MONEY_BILL,
+        to: '/refund'
       }
     ]
   },
@@ -22,7 +28,7 @@ const items = ref([
     items: [
       {
         label: 'Utstyr',
-        icon: 'pi-sync',
+        icon: PrimeIcons.SYNC,
         to: '/equipment'
       }
     ]

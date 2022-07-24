@@ -39,14 +39,87 @@ export const useCategoryStore = defineStore({
         }
       },
       async addCategory(category: Category) {
-        this.categories.push(category)
-        //Api call
-        console.log("Todo: stores>category.ts>addCategory")
+        const { getUserToken, getAuthToken } = useAuthStore();
+        try {
+          await axios.post<Category>(`${import.meta.env.VITE_ECONOMY_API_BASE_URL}/api/category`, category, {
+            headers: {
+              Authorization: `Bearer ${getAuthToken}`,
+              Token: `${getUserToken}`
+            }
+          })
+          .then(response => 
+            this.categories.push(response.data)
+          )
+          .catch ((error) => {
+            alert(error);
+            console.log(error)
+          })
+        }
+        catch (error) {
+          alert(error);
+          console.log(error);
+        }
+        finally {
+
+        }
       },
       async updateCategory(category: Category) {
-        //Update
-        console.log("Todo: stores>category.ts>updateCategory")
+        const { getUserToken, getAuthToken } = useAuthStore();
+        try {
+          await axios.put<Category>(`${import.meta.env.VITE_ECONOMY_API_BASE_URL}/api/category/${category.id}`, category, {
+            headers: {
+              Authorization: `Bearer ${getAuthToken}`,
+              Token: `${getUserToken}`
+            }
+          })
+          .then(response => { 
+            let index = this.categories.findIndex(cat => cat.id === response.data.id);
+            this.categories[index].name = response.data.name;
+          }
+          )
+          .catch ((error) => {
+            alert(error);
+            console.log(error)
+          })
+        }
+        catch (error) {
+          alert(error);
+          console.log(error);
+        }
+        finally {
+
+        }
+      },
+      async deleteCategory(category: Category) {
+        const { getUserToken, getAuthToken } = useAuthStore();
+        try {
+          await axios.delete(`${import.meta.env.VITE_ECONOMY_API_BASE_URL}/api/category/${category.id}`, {
+            headers: {
+              Authorization: `Bearer ${getAuthToken}`,
+              Token: `${getUserToken}`
+            }
+          })
+          .then(response => { 
+            if(response.data === true) {
+              let index = this.categories.findIndex(cat => cat.id === category.id);
+              this.categories.splice(index, 1);
+            }
+          }
+          )
+          .catch ((error) => {
+            alert(error);
+            console.log(error)
+          })
+        }
+        catch (error) {
+          alert(error);
+          console.log(error);
+        }
+        finally {
+
+        }
       }
     },
+    
   });
   

@@ -28,7 +28,7 @@ export const useAccountStore = defineStore({
         this.loading = true;
         const { getUserToken, getAuthToken } = useAuthStore();
         try {
-          const data = await axios.get(`${import.meta.env.VITE_ECONOMY_API_BASE_URL}/api/account/${accountingId}`, {
+          const data = await axios.get(`${import.meta.env.VITE_ECONOMY_API_BASE_URL}/api/account/${accountingId}/allowed`, {
             headers: {
               Authorization: `Bearer ${getAuthToken}`,
               Token: `${getUserToken}`
