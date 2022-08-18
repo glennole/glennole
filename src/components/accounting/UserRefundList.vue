@@ -8,7 +8,7 @@
             </Column>
             <Column field="payer" header="Betaler">
                 <template #body="{data}">
-                    <Button v-if="userStore.getUser.id === data.payerId && data.state === 1" class="p-button-rounded p-button-success" @click="openNew(data)">Betal</Button>
+                    <Button v-if="data.state === 1" class="p-button-rounded p-button-success" @click="openNew(data)">Betal ({{ data.payer }})</Button>
                     <span v-else>{{data.payer}}</span>
                 </template>
             </Column>
@@ -30,6 +30,11 @@
     </div>
 
     <Dialog :visible="refundDialog" :style="{width: '450px'}" header="Opprett ny kategori" :modal="true" class="p-fluid" @update:visible="hideDialog">
+        <div>
+            <label for="date">Dato</label>
+            <Calendar id="date" :showIcon="true" v-model="payDate" required="true" dateFormat="dd.mm.yy" :class="{'p-invalid': submitted && !payDate}"></Calendar>
+            <small class="p-error" v-if="submitted && !payDate">Dato er påkrevd.</small>
+        </div>
         <div class="field">
             <label for="amount">Beløp</label>
             <InputNumber id="amount" v-model="selectedRefund.amount" required="true" :readonly="true" />
@@ -55,6 +60,8 @@ import { storeToRefs } from 'pinia';
 import { useCategoryStore } from '@/stores/category';
 import type Category from '@/models/accounting/category.model';
 
+const payDate = ref<Date>();
+
 const refundStore = useRefundStore();
 const userStore = useUserStore();
 const categoryStore = useCategoryStore();
@@ -71,6 +78,7 @@ onMounted(() => {
 })
 
 const openNew = (refund: IRefund) => {
+    payDate.value = new Date();
     selectedRefund.value = refund;
     selectedCategoryId.value = undefined;
     submitted.value = false;
@@ -86,7 +94,7 @@ const hideDialog = () => {
 
 const pay = () =>{
     if(selectedRefund.value && selectedCategoryId.value) {
-        refundStore.payRefund(selectedRefund.value, selectedCategoryId.value);  
+        refundStore.payRefund(selectedRefund.value, selectedCategoryId.value, payDate.value);  
 
         refundDialog.value = false;
         selectedRefund.value = undefined;

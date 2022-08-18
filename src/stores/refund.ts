@@ -89,10 +89,14 @@ export const useRefundStore = defineStore({
           this.loading = false
         }
       },
-      async payRefund(refund: IRefund, categoryId: number) {
+      async payRefund(refund: IRefund, categoryId: number, payDate: Date) {
         this.loading = true;
         const { getUserToken, getAuthToken } =  useAuthStore();
-        let date = new Date().toISOString().split('T')[0];
+
+        const offset = payDate.getTimezoneOffset()
+        payDate = new Date(payDate.getTime() - (offset*60*1000))
+        let date = payDate.toISOString().split('T')[0]
+        
         try {
             
             const data = await axios.put(`${import.meta.env.VITE_ECONOMY_API_BASE_URL}/api/user/refunds/${categoryId}/${date}`, refund ,{
