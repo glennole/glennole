@@ -71,6 +71,10 @@ export const useRefundStore = defineStore({
       async createRefund(accountingId: number, date: Date) {
         this.loading = true;
         const { getUserToken, getAuthToken } =  useAuthStore();
+
+        const offset = date.getTimezoneOffset()
+        date = new Date(date.getTime() - (offset*60*1000))
+
         try {
             
             const data = await axios.post(`${import.meta.env.VITE_ECONOMY_API_BASE_URL}/api/accounting/refunds/${accountingId}/${date.toISOString().split('T')[0]}`, null ,{
