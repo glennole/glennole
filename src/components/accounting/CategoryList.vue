@@ -2,7 +2,7 @@
     <div class="card">
         <Toolbar>
             <template #start>
-                <Button label="Ny" icon="pi pi-plus" class="p-button-success mr-2" @click="openNew" />
+                <Button aria-label="Ny" icon="pi pi-plus" class="p-button-success mr-2" @click="openNew" />
             </template>
         </Toolbar>
         <DataTable :value="getCategories"

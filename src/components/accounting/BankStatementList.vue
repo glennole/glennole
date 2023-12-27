@@ -2,7 +2,7 @@
     <div class="card">
         <Toolbar v-if="accountStore.account.type === 2">
             <template #start>
-                <Button label="Ny" icon="pi pi-plus" class="p-button-success mr-2" @click="openNew" />
+                <Button aria-label="Ny" icon="pi pi-plus" class="p-button-success mr-2" @click="openNew" />
             </template>
         </Toolbar>
         <DataTable :value="getBankstatements"
@@ -62,7 +62,7 @@
     </div>
 
     <Dialog :visible="purchaseGoodsDialog" :style="{width: '450px'}" header="Opprett et kjøp" :modal="true" class="p-fluid" @update:visible="hideDialog">
-        <div>
+        <div class="field">
             <label for="date">Dato</label>
             <Calendar id="date" :showIcon="true" v-model="purchaseGoods.date" required="true" dateFormat="dd.mm.yy" :class="{'p-invalid': submitted && !purchaseGoods.date}"></Calendar>
             <small class="p-error" v-if="submitted && !purchaseGoods.date">Dato er påkrevd.</small>

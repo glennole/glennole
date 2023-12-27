@@ -5,7 +5,7 @@ import { useAuthStore } from "./auth";
 import type BankStatement from "@/models/accounting/bankstatement.model";
 
 export const useBankstatementsStore = defineStore({
-    id: "bankSTatement",
+    id: "bankStatement",
     state: () => ({
       bankstatements: ref<BankStatement[]>([]),
 

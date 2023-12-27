@@ -51,6 +51,31 @@ export const useAccountingStore = defineStore({
           this.accounting = this.accountings.find((accounting) => accounting.id === accountingId);
         }
       },
+      async createAccounting(accounting: IAccounting) {
+        const { getUserToken, getAuthToken } = useAuthStore();
+        try {
+          await axios.post<IAccounting>(`${import.meta.env.VITE_ECONOMY_API_BASE_URL}/api/accounting`, accounting, {
+            headers: {
+              Authorization: `Bearer ${getAuthToken}`,
+              Token: `${getUserToken}`
+            }
+          })
+          .then(response => {
+                this.accountings.push(response.data)
+          })
+          .catch ((error) => {
+            alert(error);
+            console.log(error)
+          })
+        }
+        catch (error) {
+          alert(error);
+          console.log(error);
+        }
+        finally {
+
+        }
+      },
       async registerPurchaseGoods(purchaseGoods: PurchaseGoods) {
         const { getUserToken, getAuthToken } = useAuthStore();
         const accountStore = useAccountStore();
