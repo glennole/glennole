@@ -51,6 +51,57 @@ export const useAccountingStore = defineStore({
           this.accounting = this.accountings.find((accounting) => accounting.id === accountingId);
         }
       },
+      async joinSharedAccounting(token: string) {
+        const { getUserToken, getAuthToken } =  useAuthStore();
+        this.loading = true;
+        this.error = null;
+        await axios.post<IAccounting>(`${import.meta.env.VITE_ECONOMY_API_BASE_URL}/api/accounting/join/`+ token, null, {
+            headers: {
+              Authorization: `Bearer ${getAuthToken}`,
+              Token: `${getUserToken}`
+            }
+          })
+          .then(response => {
+            if(response.data)
+            {
+              this.accountings.push(response.data);
+            }
+            this.loading = false;
+          })
+          .catch((error) => {
+            this.error = error;
+            this.loading = false;
+          })
+          .finally( () =>{
+            this.loading = false;
+          });
+      },
+      async createAccounting(accounting: IAccounting) {
+        this.loading = true
+        const { getUserToken, getAuthToken } = useAuthStore();
+        try {
+          await axios.post<IAccounting>(`${import.meta.env.VITE_ECONOMY_API_BASE_URL}/api/accounting`, accounting, {
+            headers: {
+              Authorization: `Bearer ${getAuthToken}`,
+              Token: `${getUserToken}`
+            }
+          })
+          .then(response => {
+            this.accountings.push(response.data)
+          })
+          .catch ((error) => {
+            this.error = error;
+            console.log('inner catch');
+          })
+        }
+        catch (error) {
+          this.error = error;
+          console.log('outer catch')
+        }
+        finally {
+          this.loading = false
+        }
+      },
       async registerPurchaseGoods(purchaseGoods: PurchaseGoods) {
         const { getUserToken, getAuthToken } = useAuthStore();
         const accountStore = useAccountStore();
